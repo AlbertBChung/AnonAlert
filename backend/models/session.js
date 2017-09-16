@@ -1,8 +1,18 @@
 var mongoose = require('mongoose')
 
 var sessionSchema = new mongoose.Schema({
-  id: { type: String, unique: true, required: true },
-  participants: [{ id: String }]
+  sessionId: { type: String, unique: true, required: true },
+  participants: [{ 
+  	_id: false,
+  	id: String
+  }],
+  startTime: { type: Date },
+  duration: { type: Number },
+  events: [{ 
+  	_id: false,
+  	id: String,
+  	time: Date   
+  }]
 })
 
 module.exports = mongoose.model('Session', sessionSchema );
