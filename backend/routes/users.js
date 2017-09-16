@@ -1,9 +1,41 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express')
+var router = express.Router()
+var User = require('../models/user')
+var authController = require('../controllers/auth')
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+router.post('/', function(req, res) {
+  var user = new User()
+
+  user.username = req.body.username	
+  user.lastName = req.body.lastName
+  user.firstName = req.body.firstName
+  user.password = req.body.password
+  user.sessions = [];
+
+  user.save(function(err) {
+    if (err)
+      res.send(err)
+    else {
+      res.json({ message: 'User created!', data: user })
+    }
+  });
+
 });
 
-module.exports = router;
+
+router.get('/', authController.isAuthenticated, function(req, res){
+  User.findOne( {'username': req.user.username},function(err, user){
+    if (err) {
+      res.send(err)
+    }
+    else {
+      res.json(user)
+    }
+  })
+})
+
+
+
+
+
+module.exports = router

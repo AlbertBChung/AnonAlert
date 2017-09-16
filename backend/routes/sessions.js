@@ -1,8 +1,9 @@
 var express = require('express')
 var router = express.Router()
 var Session = require('../models/session')
+var authController = require('../controllers/auth')
 
-router.post('/', function(req, res) {
+router.post('/', authController.isAuthenticated, function(req, res) {
   var session = new Session()
 
   session.sessionId = req.body.sessionId
@@ -10,6 +11,9 @@ router.post('/', function(req, res) {
   session.startTime = new Date()
   session.duration = 0
   session.events = []
+  session.owner = req.user.username
+
+  req.user.sessions.push(session)
 
   session.save(function(err) {
     if (err)
@@ -21,28 +25,20 @@ router.post('/', function(req, res) {
 
 });
 
-router.get('/:sessionId', function(req, res){
+router.get('/:sessionId', authController.isAuthenticated, function(req, res){
   Session.findOne( {'sessionId': req.params.sessionId},function(err, session){
     if (err) {
       res.send(err)
     }
-    else {
+    else if(session.owner == req.user.username){
       res.json(session)
+    }
+    else {
+      res.json('unauthorized')
     }
   })
 })
 
-router.get('/', function(req, res){
-  //Session.collection.drop();
-  Session.find({}, function(err, sessions){
-    if (err) {
-      res.send(err)
-    }
-    else {
-      res.json(sessions)
-    }
-  })
-})
 
 
 router.post('/add', function(req, res) {

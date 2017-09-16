@@ -12,7 +12,8 @@ var sessionSchema = new mongoose.Schema({
   	_id: false,
   	id: String,
   	time: Date   
-  }]
+  }],
+  owner: {type: String}
 })
 
 module.exports = mongoose.model('Session', sessionSchema );

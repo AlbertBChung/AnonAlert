@@ -1,6 +1,7 @@
 require('dotenv').config()
 var express = require('express')
 var mongoose = require('mongoose')
+var passport = require('passport')
 var cors = require('cors')
 
 
@@ -17,7 +18,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-
+app.use(passport.initialize());
 
 mongoose.connect(process.env.MONGODB_URI);
 app.use(cors())
@@ -40,6 +41,8 @@ router.get('/', function (req, res) {
 })
 
 router.use('/sessions', require('./routes/sessions.js'))
+router.use('/users', require('./routes/users.js'))
+
 app.use('/api', router)
 
 
