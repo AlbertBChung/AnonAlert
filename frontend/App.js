@@ -45,7 +45,7 @@ const TeacherNav = StackNavigator (
       screen: TeacherLogin,
     },
     TeacherSide: {
-      screen: TeacherSide,
+      screen: TeachMainNav,
     },
   },
   { headerMode: 'none' }

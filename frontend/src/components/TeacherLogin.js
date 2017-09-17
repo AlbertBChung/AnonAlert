@@ -11,6 +11,23 @@ export default class TeacherLogin extends Component {
     };
   }
 
+  login(sessionID) {
+    fetch('https://anonalert.herokuapp.com/api/users/', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      firstName: 'Alexander',
+      lastName: 'Greenbug',
+      username: 'atg73@cornell.edu',
+      password: 'ggitmQQ'
+    })
+  })
+  this.props.navigation.navigate('TeacherSide', {sessionID: sessionID} )
+  }
+
   render() {
     return (
       <View style = {styles.bigView}>
@@ -29,7 +46,7 @@ export default class TeacherLogin extends Component {
             value={this.state.sessionID}
           />
           <View style = {styles.buttonContainerStyle}> 
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('TeacherSide')}> 
+            <TouchableOpacity onPress={() => this.login(this.state.sessionID)}> 
               <Text style= { styles.centerText }>
                 Login
               </Text>

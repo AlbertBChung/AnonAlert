@@ -1,7 +1,10 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from 'react' ;
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native' ;
+import { StackNavigator} from 'react-navigation' ;
+import NewSession from './NewSession' ;
+import ViewSession from './ViewSession' ;
 
-export default class TeacherSide extends Component {
+class TeacherSide extends Component {
   constructor(props) {
     super(props);
   }
@@ -9,6 +12,20 @@ export default class TeacherSide extends Component {
   render() {
     return (
       <View style={ styles.container }>
+        <View>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('Session', {sessionID: this.props.navigation.state.params.sessionID })}>
+            <Text>
+              Make New Session
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('View')}>
+            <Text>
+              View Sessions
+            </Text>
+          </TouchableOpacity>
+        </View>
         <View style={ styles.circle }>
           <Text style= { styles.displayText }>
             9
@@ -18,6 +35,40 @@ export default class TeacherSide extends Component {
     );
   }
 }
+
+const NewSessionNav = StackNavigator (
+  {
+    Home: {
+      screen: NewSession,
+    },
+  },
+  { headerMode: 'none' }
+)
+
+const ViewSessionNav = StackNavigator (
+  {
+    Home: {
+      screen: ViewSession,
+    },
+  },
+  { headerMode: 'none' }
+)
+
+export default TeachMainNav = StackNavigator (
+  {
+    Home: {
+      screen: TeacherSide,
+    },
+    Session: {
+      screen: NewSessionNav,
+    },
+    View: {
+      screen: ViewSessionNav,
+    },
+  },
+  { headerMode: 'none' }
+)
+
 
 const styles = StyleSheet.create({
   circle: {

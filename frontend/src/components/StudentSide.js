@@ -7,6 +7,7 @@ export default class StudentSide extends Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <View style={styles.container}>
         <Text style = { styles.titleText }>

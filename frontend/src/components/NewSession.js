@@ -1,14 +1,27 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 
-export default class SessionID extends Component {
+export default class NewSession extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      username: 'username',
-      password: 'password',
-      sessionID: 'sessionID',
+      classID: 'classID',
     };
+  }
+
+  createSession(classID) {
+    fetch('https://anonalert.herokuapp.com/api/sessions/', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      classID: classID,
+      sessionID: this.props.navigation.state.params.sessionID
+    })
+  })
+    alert("You've created a new session!")
   }
 
   render() {
@@ -17,21 +30,13 @@ export default class SessionID extends Component {
         <View style = {styles.container}/>
         <View style = {styles.container}>
           <TextInput
-            onChangeText={(text) => this.setState({username: text})}
-            value={this.state.username}
-          />
-          <TextInput
-            onChangeText={(text) => this.setState({password: text})}
-            value={this.state.password}
-          />
-          <TextInput
-            onChangeText={(text) => this.setState({sessionID: text})}
-            value={this.state.sessionID}
+            onChangeText={(text) => this.setState({classID: text})}
+            value={this.state.classID}
           />
           <View style = {styles.buttonContainerStyle}> 
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('StudentSide')}> 
+            <TouchableOpacity onPress={() => this.createSession(this.state.classID)}> 
               <Text style= { styles.centerText }>
-                Login
+                Create Session
               </Text>
             </TouchableOpacity> 
           </View>
