@@ -32,7 +32,7 @@ app.set('view engine', 'ejs');
 
 
 app.get('/', function(req, res) {
-  res.json({message: 'API'})
+  res.render('index')
 });
 
 var router = express.Router()
