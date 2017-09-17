@@ -2,10 +2,7 @@ var mongoose = require('mongoose')
 
 var sessionSchema = new mongoose.Schema({
   sessionId: { type: String, unique: true, required: true },
-  idList: [{ 
-  	_id: false,
-  	id: String
-  }],
+  idList: [String],
   idCount: {type: Number},
   startTime: { type: Date },
   duration: { type: Number },

@@ -45,6 +45,7 @@ router.post('/', authController.isAuthenticated, function(req, res) {
   })
 })
 
+
 router.get('/:sessionId', authController.isAuthenticated, function(req, res){
   Session.findOne( {'sessionId': req.params.sessionId, owner: req.user.username },function(err, session){
     if (err) {
@@ -74,16 +75,37 @@ router.get('id/:_id', authController.isAuthenticated, function(req, res){
 })
 
 router.post('/clear', function(req, res){
-  Session.remove({})
-  Class.remove({})
-  User.remove({})
-  User.remove({}, function(err) { 
-   console.log('collection removed') 
-  });
+  tap(req.body.id, req.body.sessionId)
 })
 
-router.post('/add', function(req, res) {
+var tap = function tap(sid, sessionId){
+  Session.findOne( {'sessionId': sessionId}, function(err, session){
+    if (err) {
+      console.log(err)
+    }
+    else if (session != null && session.idList.indexOf(sid) != -1) {
+      var event = {
+        id: sid,
+        time: new Date()
+      }
 
+      session.events.push(event)
+
+      session.save(function(err) {
+        if (err)
+          console.log(err)
+        else {
+
+        }
+      })
+    }
+    else{
+      console.log('unauthorized')
+    }
+  })
+}
+
+router.post('/add', function(req, res) {
   var student = { id: req.body.id }
   Session.findOne( { 'sessionId': req.body.sessionId }, function(err, session){
     if (err) {

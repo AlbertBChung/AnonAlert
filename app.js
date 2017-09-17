@@ -4,8 +4,24 @@ var mongoose = require('mongoose')
 var passport = require('passport')
 var cors = require('cors')
 
-
 var app = express()
+
+
+var server = require('http').createServer(app)
+var io = require('socket.io').listen(server)
+connections = []
+io.sockets.on('connection', function(socket){
+	connections.push(socket)
+	console.log('connected %s', connections.length)
+	socket.on('onTap',function(data){
+		console.log('clicked')
+	})	
+	socket.on('disconnect',function(data){
+		connections.splice(connections.indexOf(socket), 1)
+		console.log('connected %s', connections.length)
+	})
+})
+
 
 var bodyParser = require('body-parser')
 app.use(bodyParser.json())
@@ -32,7 +48,7 @@ app.set('view engine', 'ejs');
 
 
 app.get('/', function(req, res) {
-  res.render('index')
+  res.sendFile(__dirname+'/views/index.html')
 });
 
 var router = express.Router()
@@ -47,6 +63,6 @@ router.use('/classes', require('./routes/classes.js'))
 app.use('/api', router)
 
 
-app.listen(app.get('port'), function() {
+server.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
