@@ -1,10 +1,12 @@
 import React, { Component } from 'react' ;
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native' ;
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native' ;
 import { StackNavigator} from 'react-navigation' ;
 import SessionID from './src/components/SessionID' ;
 import StudentSide from './src/components/StudentSide' ;
 import TeacherLogin from './src/components/TeacherLogin' ;
 import TeacherSide from './src/components/TeacherSide' ;
+
+import { Card, ListItem, Button, Header } from 'react-native-elements'
 
 
 class App extends Component {
@@ -14,30 +16,33 @@ class App extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style = { styles.titleText }>
-          Welcome to AnonAlert
-        </Text>
-        <Text style = { styles.titleText }>
-          Sign in here
-        </Text>
-        <View style = { styles.columnStyle }>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('Student')}>
-            <Text style = { styles.buttonText }>
-              Student
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('Teacher')} >
-            <Text style = { styles.buttonText }>
-              Teacher
-            </Text>
-          </TouchableOpacity>
+      <ScrollView>
+        <View style={styles.header}>
+          <Text style={styles.heading}>AnonAlert</Text>
         </View>
-      </View>
+
+        <View style={{flex: 1}}>
+          <Card style={styles.card}>
+            <Button
+              large={true}
+              buttonStyle={styles.button}
+              backgroundColor={'transparent'}
+              onPress={() => this.props.navigation.navigate('Student')}
+              color={'#1BA39C'}
+              title="Student" />
+            <Button
+              large={true}
+              buttonStyle={styles.button}
+              backgroundColor={'#1BA39C'}
+              onPress={() => this.props.navigation.navigate('Teacher')}
+              title="Teacher" />
+          </Card>
+        </View>
+      </ScrollView>
     );
   }
 }
+
 
 const TeacherNav = StackNavigator (
   {
@@ -78,21 +83,24 @@ export default LoginStack = StackNavigator (
 )
 
 const styles = StyleSheet.create({
-  columnStyle: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-  },
-  titleText: {
-    fontSize: 26
-  },
-  buttonText: {
-    fontSize: 18
-  },
-  container: {
-    flex: 1,
-    alignItems: 'center',
+  heading: {
+   color: 'white',
+   padding: 40,
+   marginTop: 10,
+   fontSize: 22,
+ },
+  header: {
     justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#0B8389',
   },
-
-  
+  button: {
+    borderRadius: 4,
+    borderWidth: 1.5,
+    borderColor: '#1BA39C',
+    marginTop: 15,
+  },
+  card: {
+    marginTop: 30,
+  }
 });
