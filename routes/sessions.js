@@ -19,6 +19,8 @@ router.post('/', authController.isAuthenticated, function(req, res) {
           session.duration = 0
           session.events = []
           session.owner = req.user.username
+          session.idList = course.idList
+          session.idCount = course.idList.length
           session.classId = req.body.classId
 
           course.sessions.push(session)
@@ -57,6 +59,20 @@ router.get('/:sessionId', authController.isAuthenticated, function(req, res){
   })
 })
 
+router.get('id/:_id', authController.isAuthenticated, function(req, res){
+  Session.findById(req.params._id, function (err, session) {
+    if (err) {
+      res.send(err)
+    }
+    else if(session != null && session.owner == req.user.username){
+      res.json(session)
+    }
+    else {
+      res.json('unauthorized')
+    }
+  })
+})
+
 router.post('/clear', function(req, res){
   Session.remove({})
   Class.remove({})
@@ -82,11 +98,10 @@ router.post('/add', function(req, res) {
         else {
           res.json({ message: 'Session updated!', data: session });
         }
-      });
+      })
     }
   })
-
-});
+})
 
 
 router.post('/tap', function(req, res) {

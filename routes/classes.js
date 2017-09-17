@@ -52,5 +52,18 @@ router.get('/:classId', authController.isAuthenticated, function(req, res){
   })
 })
 
+router.get('id/:_id', authController.isAuthenticated, function(req, res){
+  Class.findById(req.params._id, function (err, course) {
+    if (err) {
+      res.send(err)
+    }
+    else if(course != null && course.owner == req.user.username){
+      res.json(course)
+    }
+    else {
+      res.json('unauthorized')
+    }
+  })
+})
 
 module.exports = router

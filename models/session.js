@@ -2,10 +2,11 @@ var mongoose = require('mongoose')
 
 var sessionSchema = new mongoose.Schema({
   sessionId: { type: String, unique: true, required: true },
-  participants: [{ 
+  idList: [{ 
   	_id: false,
   	id: String
   }],
+  idCount: {type: Number},
   startTime: { type: Date },
   duration: { type: Number },
   events: [{ 
