@@ -1,48 +1,67 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { FormLabel, FormInput, Button } from 'react-native-elements';
+
 
 export default class TeacherLogin extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       username: 'username',
       password: 'password',
-      sessionID: 'sessionID',
+      firstName: 'firstName',
+      lastName: 'lastName'
     };
-  }
 
+  }
   render() {
     return (
-      <View style = {styles.bigView}>
-        <View style = {styles.container}/>
-        <View style = {styles.container}>
-          <TextInput
-            onChangeText={(text) => this.setState({username: text})}
-            value={this.state.username}
-          />
-          <TextInput
-            onChangeText={(text) => this.setState({password: text})}
-            value={this.state.password}
-          />
-          <TextInput
-            onChangeText={(text) => this.setState({sessionID: text})}
-            value={this.state.sessionID}
-          />
-          <View style = {styles.buttonContainerStyle}> 
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('TeacherSide')}> 
-              <Text style= { styles.centerText }>
-                Login
-              </Text>
-            </TouchableOpacity> 
-          </View>
-        </View>
-        <View style = {styles.container}/>
+      <View>
+        <FormLabel containerStyle={styles.labelContainerStyle}>
+          Teacher Login
+        </FormLabel>
+        <FormInput
+        ref="form2"
+        containerRef="containerRefYOYO"
+        textInputRef="textInputRef"
+        placeholder="Email"
+        inputStyle={styles.inputs}
+        />
+        <FormInput
+        ref="form2"
+        containerRef="containerRefYOYO"
+        textInputRef="textInputRef"
+        placeholder="Password"
+        inputStyle={styles.inputs}
+        />
+        <FormInput
+        ref="form2"
+        containerRef="containerRefYOYO"
+        textInputRef="textInputRef"
+        placeholder="First Name"
+        inputStyle={styles.inputs}
+        />
+        <FormInput
+        ref="form2"
+        containerRef="containerRefYOYO"
+        textInputRef="textInputRef"
+        placeholder="Last Name"
+        inputStyle={styles.inputs}
+        />
       </View>
     );
   }
 }
 
+
 const styles = StyleSheet.create({
+  labelContainerStyle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  inputs: {
+    padding: 20,
+  },
   centerText: {
     textAlign: 'center',
   },
