@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Anon</title>
+  <link rel = "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3 col-sm-12">
+        <h1 class="text-center">
+          Student
+        </h1>
+        <div class = "form-group">
+          <label for="sessionid">Session ID</label>
+          <input type="text" id="sessionid" class="form-control" placeholder="Enter Session ID">
+        </div>
+        <br>
+        <button id="click" class="btn btn-danger">Tap Me</button>
+        <br>
+        <div class="card">
+          <div id="counter" class="card-block">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  var socket = io()
+
+  socket.on('status', function(data){
+    document.getElementById("counter").textContent = 'count:' + data.status;
+  });
+
+  document.getElementById("click").addEventListener("click", function(){
+    socket.emit('reset');
+  });
+</script>
+</body>
+</html>
