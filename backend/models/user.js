@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 
-
+//teacher object
 var UserSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -14,7 +14,7 @@ var UserSchema = new mongoose.Schema({
   },
   lastName: { type: String },
   firstName: { type: String },
-	sessions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Session' }],
+	classes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Class' }]
 });
 
 

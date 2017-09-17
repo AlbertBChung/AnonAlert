@@ -42,6 +42,7 @@ router.get('/', function (req, res) {
 
 router.use('/sessions', require('./routes/sessions.js'))
 router.use('/users', require('./routes/users.js'))
+router.use('/classes', require('./routes/classes.js'))
 
 app.use('/api', router)
 

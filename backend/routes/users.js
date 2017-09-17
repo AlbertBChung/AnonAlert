@@ -10,7 +10,7 @@ router.post('/', function(req, res) {
   user.lastName = req.body.lastName
   user.firstName = req.body.firstName
   user.password = req.body.password
-  user.sessions = [];
+  user.classes = [];
 
   user.save(function(err) {
     if (err)
