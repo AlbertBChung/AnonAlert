@@ -27,11 +27,11 @@ router.post('/', authController.isAuthenticated, function(req, res) {
 
           session.save(function(err) {
             if (err)
-              res.send(err)
+              res.status(500).send(err)
             else {
               course.save(function(err){
                 if(err)
-                  res.send(err)
+                  res.status(500).send(err)
                 else{
                   res.json({ message: 'Session created!', data: session })  
                 }
@@ -49,7 +49,7 @@ router.post('/', authController.isAuthenticated, function(req, res) {
 router.get('/:sessionId', authController.isAuthenticated, function(req, res){
   Session.findOne( {'sessionId': req.params.sessionId, owner: req.user.username },function(err, session){
     if (err) {
-      res.send(err)
+      res.status(500).send(err)
     }
     else if(session != null){
       res.json(session)
@@ -63,7 +63,7 @@ router.get('/:sessionId', authController.isAuthenticated, function(req, res){
 router.get('id/:_id', authController.isAuthenticated, function(req, res){
   Session.findById(req.params._id, function (err, session) {
     if (err) {
-      res.send(err)
+      res.status(500).send(err)
     }
     else if(session != null && session.owner == req.user.username){
       res.json(session)
@@ -78,80 +78,7 @@ router.post('/clear', function(req, res){
   tap(req.body.id, req.body.sessionId)
 })
 
-var tap = function tap(sid, sessionId){
-  Session.findOne( {'sessionId': sessionId}, function(err, session){
-    if (err) {
-      console.log(err)
-    }
-    else if (session != null && session.idList.indexOf(sid) != -1) {
-      var event = {
-        id: sid,
-        time: new Date()
-      }
 
-      session.events.push(event)
-
-      session.save(function(err) {
-        if (err)
-          console.log(err)
-        else {
-
-        }
-      })
-    }
-    else{
-      console.log('unauthorized')
-    }
-  })
-}
-
-router.post('/add', function(req, res) {
-  var student = { id: req.body.id }
-  Session.findOne( { 'sessionId': req.body.sessionId }, function(err, session){
-    if (err) {
-      res.send(err)
-    }
-    else {
-      session.participants.push(student)
-      
-      session.save(function(err) {
-        if (err)
-          res.send(err)
-        else {
-          res.json({ message: 'Session updated!', data: session });
-        }
-      })
-    }
-  })
-})
-
-
-router.post('/tap', function(req, res) {
-
-  Session.findOne( {'sessionId': req.body.sessionId},function(err, session){
-    if (err) {
-      res.send(err)
-    }
-    else {
-      var event = {
-        id: req.body.id,
-        time: new Date()
-      }
-
-      session.events.push(event)
-
-
-      session.save(function(err) {
-        if (err)
-          res.send(err)
-        else {
-          res.json({ message: 'Session updated!', data: session });
-        }
-      });
-    }
-  })
-
-});
 
 
 module.exports = router

@@ -3,7 +3,7 @@ var express = require('express')
 var mongoose = require('mongoose')
 var passport = require('passport')
 var cors = require('cors')
-
+var student = require('./services/studentFunc')
 var app = express()
 
 
@@ -14,8 +14,13 @@ io.sockets.on('connection', function(socket){
 	connections.push(socket)
 	console.log('connected %s', connections.length)
 	socket.on('onTap',function(data){
-		console.log('clicked')
-	})	
+		console.log('tap')
+		student.tap(data.sid, data.sessionId);
+	})
+	socket.on('onJoin',function(data){
+		console.log('join')
+		student.join(data.sid, data.sessionId);
+	})		
 	socket.on('disconnect',function(data){
 		connections.splice(connections.indexOf(socket), 1)
 		console.log('connected %s', connections.length)
@@ -48,7 +53,7 @@ app.set('view engine', 'ejs');
 
 
 app.get('/', function(req, res) {
-  res.sendFile(__dirname+'/views/index.html')
+  res.render('index')
 });
 
 var router = express.Router()

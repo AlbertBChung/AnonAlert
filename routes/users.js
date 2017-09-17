@@ -14,7 +14,7 @@ router.post('/', function(req, res) {
 
   user.save(function(err) {
     if (err)
-      res.send(err)
+      res.status(500).send(err)
     else {
       res.json({ message: 'User created!', data: user })
     }
@@ -26,7 +26,7 @@ router.post('/', function(req, res) {
 router.get('/', authController.isAuthenticated, function(req, res){
   User.findOne( {'username': req.user.username},function(err, user){
     if (err) {
-      res.send(err)
+      res.status(500).send(err)
     }
     else {
       res.json(user)
